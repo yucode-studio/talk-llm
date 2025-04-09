@@ -1,0 +1,65 @@
+# Xcode
+build/
+DerivedData/
+*.xcworkspace
+!default.xcworkspace
+xcuserdata/
+*.xccheckout
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata
+*.moved-aside
+*.xcuserstate
+
+# SwiftPM
+.swiftpm/
+.build/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Xcode automatically generated files
+*.xcuserstate
+*.xcscmblueprint
+
+# Temporary files
+*.swp
+*.lock
+*.log
+*.tmp
+*.DS_Store
+
+# Unit test coverage files
+*.gcno
+
+# SPM local packages
+Package.resolved
+
+# Archives
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Xcode Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Firebase Crashlytics
+*.crash
+*.reproducible
+
+# SPM checkouts
+.checkouts/
+
+# Cursor
+.cursor

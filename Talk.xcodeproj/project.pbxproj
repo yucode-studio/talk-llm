@@ -1,0 +1,497 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2A3262C72DA61F54005EB4E9 /* MicrosoftCognitiveServicesSpeech.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A7768FA2DA390BA00F4C860 /* MicrosoftCognitiveServicesSpeech.xcframework */; };
+		2A3262C82DA61F54005EB4E9 /* MicrosoftCognitiveServicesSpeech.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2A7768FA2DA390BA00F4C860 /* MicrosoftCognitiveServicesSpeech.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2A7768BF2DA28ACA00F4C860 /* Cobra in Frameworks */ = {isa = PBXBuildFile; productRef = 2A7768BE2DA28ACA00F4C860 /* Cobra */; };
+		2A7768CA2DA296B400F4C860 /* ios_voice_processor in Frameworks */ = {isa = PBXBuildFile; productRef = 2A7768C92DA296B400F4C860 /* ios_voice_processor */; };
+		2A7768CD2DA29D4400F4C860 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2A7768CC2DA29D4400F4C860 /* Alamofire */; };
+		2A7768F92DA372A300F4C860 /* EventSource in Frameworks */ = {isa = PBXBuildFile; productRef = 2A7768F82DA372A300F4C860 /* EventSource */; };
+		2A7769062DA3B16D00F4C860 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2A7769052DA3B16D00F4C860 /* MarkdownUI */; };
+		2A7769242DA3E5AC00F4C860 /* ChunkedAudioPlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 2A7769232DA3E5AC00F4C860 /* ChunkedAudioPlayer */; };
+		2A7769742DA4FB5D00F4C860 /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2A7769732DA4FB5D00F4C860 /* WhisperKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2A3262C92DA61F54005EB4E9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2A3262C82DA61F54005EB4E9 /* MicrosoftCognitiveServicesSpeech.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2A7768AF2DA28A5B00F4C860 /* Talk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Talk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A7768FA2DA390BA00F4C860 /* MicrosoftCognitiveServicesSpeech.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MicrosoftCognitiveServicesSpeech.xcframework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		2A7768B12DA28A5B00F4C860 /* Talk */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Talk;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2A7768AC2DA28A5B00F4C860 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A7768CD2DA29D4400F4C860 /* Alamofire in Frameworks */,
+				2A7768CA2DA296B400F4C860 /* ios_voice_processor in Frameworks */,
+				2A7769062DA3B16D00F4C860 /* MarkdownUI in Frameworks */,
+				2A7769742DA4FB5D00F4C860 /* WhisperKit in Frameworks */,
+				2A7768F92DA372A300F4C860 /* EventSource in Frameworks */,
+				2A3262C72DA61F54005EB4E9 /* MicrosoftCognitiveServicesSpeech.xcframework in Frameworks */,
+				2A7768BF2DA28ACA00F4C860 /* Cobra in Frameworks */,
+				2A7769242DA3E5AC00F4C860 /* ChunkedAudioPlayer in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2A7768A62DA28A5B00F4C860 = {
+			isa = PBXGroup;
+			children = (
+				2A7768FC2DA390D300F4C860 /* Frameworks */,
+				2A7768B12DA28A5B00F4C860 /* Talk */,
+				2A7768B02DA28A5B00F4C860 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2A7768B02DA28A5B00F4C860 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2A7768AF2DA28A5B00F4C860 /* Talk.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2A7768FC2DA390D300F4C860 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2A7768FA2DA390BA00F4C860 /* MicrosoftCognitiveServicesSpeech.xcframework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2A7768AE2DA28A5B00F4C860 /* Talk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A7768BA2DA28A5C00F4C860 /* Build configuration list for PBXNativeTarget "Talk" */;
+			buildPhases = (
+				2A7768AB2DA28A5B00F4C860 /* Sources */,
+				2A7768AC2DA28A5B00F4C860 /* Frameworks */,
+				2A7768AD2DA28A5B00F4C860 /* Resources */,
+				2A3262C92DA61F54005EB4E9 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				2A7768B12DA28A5B00F4C860 /* Talk */,
+			);
+			name = Talk;
+			packageProductDependencies = (
+				2A7768BE2DA28ACA00F4C860 /* Cobra */,
+				2A7768C92DA296B400F4C860 /* ios_voice_processor */,
+				2A7768CC2DA29D4400F4C860 /* Alamofire */,
+				2A7768F82DA372A300F4C860 /* EventSource */,
+				2A7769052DA3B16D00F4C860 /* MarkdownUI */,
+				2A7769232DA3E5AC00F4C860 /* ChunkedAudioPlayer */,
+				2A7769732DA4FB5D00F4C860 /* WhisperKit */,
+			);
+			productName = Talk;
+			productReference = 2A7768AF2DA28A5B00F4C860 /* Talk.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2A7768A72DA28A5B00F4C860 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					2A7768AE2DA28A5B00F4C860 = {
+						CreatedOnToolsVersion = 16.3;
+					};
+				};
+			};
+			buildConfigurationList = 2A7768AA2DA28A5B00F4C860 /* Build configuration list for PBXProject "Talk" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2A7768A62DA28A5B00F4C860;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2A7768BD2DA28ACA00F4C860 /* XCRemoteSwiftPackageReference "cobra" */,
+				2A7768C82DA296B400F4C860 /* XCRemoteSwiftPackageReference "ios-voice-processor" */,
+				2A7768CB2DA29D4400F4C860 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				2A7768F72DA372A300F4C860 /* XCRemoteSwiftPackageReference "EventSource" */,
+				2A7769042DA3B16D00F4C860 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				2A7769222DA3E5AC00F4C860 /* XCRemoteSwiftPackageReference "swift-chunked-audio-player" */,
+				2A7769722DA4FB5D00F4C860 /* XCRemoteSwiftPackageReference "whisperkit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 2A7768B02DA28A5B00F4C860 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2A7768AE2DA28A5B00F4C860 /* Talk */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2A7768AD2DA28A5B00F4C860 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2A7768AB2DA28A5B00F4C860 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2A7768B82DA28A5C00F4C860 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = SRD476XUQA;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2A7768B92DA28A5C00F4C860 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = SRD476XUQA;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2A7768BB2DA28A5C00F4C860 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SRD476XUQA;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Talk LLM";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires access to your microphone to record your voice.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.zhangyu.talk-llm";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2A7768BC2DA28A5C00F4C860 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SRD476XUQA;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Talk LLM";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires access to your microphone to record your voice.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.zhangyu.talk-llm";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2A7768AA2DA28A5B00F4C860 /* Build configuration list for PBXProject "Talk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A7768B82DA28A5C00F4C860 /* Debug */,
+				2A7768B92DA28A5C00F4C860 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2A7768BA2DA28A5C00F4C860 /* Build configuration list for PBXNativeTarget "Talk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A7768BB2DA28A5C00F4C860 /* Debug */,
+				2A7768BC2DA28A5C00F4C860 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2A7768BD2DA28ACA00F4C860 /* XCRemoteSwiftPackageReference "cobra" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Picovoice/cobra.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.2;
+			};
+		};
+		2A7768C82DA296B400F4C860 /* XCRemoteSwiftPackageReference "ios-voice-processor" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Picovoice/ios-voice-processor.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+		2A7768CB2DA29D4400F4C860 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		2A7768F72DA372A300F4C860 /* XCRemoteSwiftPackageReference "EventSource" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Recouse/EventSource";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
+		2A7769042DA3B16D00F4C860 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.1;
+			};
+		};
+		2A7769222DA3E5AC00F4C860 /* XCRemoteSwiftPackageReference "swift-chunked-audio-player" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mihai8804858/swift-chunked-audio-player.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+		2A7769722DA4FB5D00F4C860 /* XCRemoteSwiftPackageReference "whisperkit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/argmaxinc/whisperkit";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2A7768BE2DA28ACA00F4C860 /* Cobra */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A7768BD2DA28ACA00F4C860 /* XCRemoteSwiftPackageReference "cobra" */;
+			productName = Cobra;
+		};
+		2A7768C92DA296B400F4C860 /* ios_voice_processor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A7768C82DA296B400F4C860 /* XCRemoteSwiftPackageReference "ios-voice-processor" */;
+			productName = ios_voice_processor;
+		};
+		2A7768CC2DA29D4400F4C860 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A7768CB2DA29D4400F4C860 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		2A7768F82DA372A300F4C860 /* EventSource */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A7768F72DA372A300F4C860 /* XCRemoteSwiftPackageReference "EventSource" */;
+			productName = EventSource;
+		};
+		2A7769052DA3B16D00F4C860 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A7769042DA3B16D00F4C860 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
+		2A7769232DA3E5AC00F4C860 /* ChunkedAudioPlayer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A7769222DA3E5AC00F4C860 /* XCRemoteSwiftPackageReference "swift-chunked-audio-player" */;
+			productName = ChunkedAudioPlayer;
+		};
+		2A7769732DA4FB5D00F4C860 /* WhisperKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A7769722DA4FB5D00F4C860 /* XCRemoteSwiftPackageReference "whisperkit" */;
+			productName = WhisperKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 2A7768A72DA28A5B00F4C860 /* Project object */;
+}
