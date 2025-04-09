@@ -12,8 +12,8 @@
   - Supports **Azure TTS**
   - Supports **OpenAI-compatible TTS**
 - 🎧 **Custom STT (Speech-to-Text)**:
-  - Supports **[WhisperKit](https://github.com/davidwernhart/whisperkit)** for iOS
-  - Supports **whisper.cpp HTTP server**
+  - Supports **WhisperKit** for iOS
+  - Supports **Whisper.cpp HTTP server**
 - 🗂️ **Chat History**: Automatically saves and organizes past conversations.
 
 ## 📄 License
