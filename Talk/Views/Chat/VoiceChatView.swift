@@ -24,8 +24,10 @@ struct VoiceChatView: View {
     @State private var llmService: LLMService?
     @State private var ttsService: TTSService?
     
-    private var currentSettings: SettingsModel {
-        settings.first ?? SettingsModel()
+    @State private var servicesInitialed: Bool = false
+    
+    private var currentSettings: SettingsModel? {
+        settings.first
     }
     
     var body: some View {
@@ -41,6 +43,13 @@ struct VoiceChatView: View {
             .onChange(of: speechMonitor.recordedAudioData) { _, newValue in
                 onSpeakEnd(data: newValue)
             }
+            .onChange(of: currentSettings?.settingsHash) { _, newSettings in
+                debugPrint("Settings changed")
+                if speechMonitor.listening {
+                    speechMonitor.stopMonitoring()
+                }
+                servicesInitialed = false
+            }
         }
         .alert("Configuration Error", isPresented: $showingErrorAlert) {
             Button("OK", role: .cancel) { }
@@ -51,15 +60,22 @@ struct VoiceChatView: View {
     
     private func verifyAndInitializeServices() {
         Task {
-            if await initializeServices() {
-                speechMonitor.toggleMonitoring()
+            if !servicesInitialed {
+                servicesInitialed = await initializeServices()
+                if !servicesInitialed {
+                    return
+                }
             }
+            speechMonitor.toggleMonitoring()
         }
     }
     
     @discardableResult
     private func initializeServices() async -> Bool {
         do {
+            guard let currentSettings else {
+                throw SettingsServiceError.invalidConfiguration("No Settings")
+            }
             let vadEngine = try ServicesManager.createVADEngin(
                 selectedVADEngine: currentSettings.selectedVADService,
                 cobraSettings: currentSettings.cobraSettings
@@ -72,7 +88,7 @@ struct VoiceChatView: View {
                 whisperCppSettings: currentSettings.whisperCppSettings,
                 whisperKitSettings: currentSettings.whisperKitSettings
             )
-        
+            
             llmService = try ServicesManager.createLLMService(
                 selectedLLMService: currentSettings.selectedLLMService,
                 openAILLMSettings: currentSettings.openAILLMSettings,
@@ -106,6 +122,11 @@ struct VoiceChatView: View {
             return
         }
         
+        guard let currentSettings else {
+            print("No Settings")
+            return 
+        }
+        
         guard let speechRecognitionService = speechRecognitionService,
               let llmService = llmService,
               let ttsService = ttsService else {
@@ -135,9 +156,9 @@ struct VoiceChatView: View {
                 case .dify:
                     modelName = ""
                 }
-
+                
                 var additionalParams: [String: Any] = [:]
-
+                
                 let useOpenAILLM = currentSettings.selectedLLMService == .openAI
                 let openAILLMPromptEmpty = currentSettings.openAILLMSettings.prompt.isEmpty
                 

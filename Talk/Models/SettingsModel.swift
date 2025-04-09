@@ -47,6 +47,44 @@ final class SettingsModel {
     init() {}
 }
 
+extension SettingsModel {
+    var settingsHash: String {
+        [
+            selectedVADService.rawValue,
+            selectedLLMService.rawValue,
+            selectedSpeechService.rawValue,
+            selectedTTSService.rawValue,
+            
+            cobraSettings.accessKey,
+            
+            openAILLMSettings.apiKey,
+            openAILLMSettings.baseURL,
+            openAILLMSettings.model,
+            openAILLMSettings.prompt,
+            String(openAILLMSettings.temperature),
+            String(openAILLMSettings.top_p),
+            
+            difySettings.apiKey,
+            difySettings.baseURL,
+            
+            whisperCppSettings.serverURL,
+            
+            whisperKitSettings.modelName,
+            
+            microsoftTTSSettings.subscriptionKey,
+            microsoftTTSSettings.region,
+            microsoftTTSSettings.voiceName,
+            
+            openAITTSSettings.apiKey,
+            openAITTSSettings.model,
+            openAITTSSettings.voice,
+            String(openAITTSSettings.speed),
+            openAITTSSettings.instructions,
+            openAITTSSettings.baseURL,
+        ].joined(separator: "-")
+    }
+}
+
 struct CobraSettings: Codable, Hashable {
     var accessKey: String = ""
 }
