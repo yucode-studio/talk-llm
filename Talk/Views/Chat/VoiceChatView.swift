@@ -10,6 +10,7 @@ import Combine
 import Alamofire
 import SwiftData
 import WhisperKit
+import AVFoundation
 
 struct VoiceChatView: View {
     @Environment(\.modelContext) private var modelContext
