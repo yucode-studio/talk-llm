@@ -16,12 +16,12 @@ struct OpenAILLMSettingsView: View {
                         viewModel.openAILLMSettings = settings
                     }
                 ),
-                placeholder: "Enter OpenAI API Key",
+                placeholder: "Enter API Key",
                 isSecure: true
             )
             
             SettingsTextField(
-                title: "API Base URL (Optional)",
+                title: "API Base URL",
                 text: Binding(
                     get: { viewModel.openAILLMSettings.baseURL },
                     set: { 
@@ -30,7 +30,7 @@ struct OpenAILLMSettingsView: View {
                         viewModel.openAILLMSettings = settings
                     }
                 ),
-                placeholder: "Enter custom API URL (leave empty for default)"
+                placeholder: "Enter API Base URL (e.g. https://example.com/v1)"
             )
             
             SettingsTextField(
@@ -43,7 +43,7 @@ struct OpenAILLMSettingsView: View {
                         viewModel.openAILLMSettings = settings
                     }
                 ),
-                placeholder: "Enter model name (e.g. gpt-3.5-turbo, gpt-4)"
+                placeholder: "Enter model name"
             )
             
             VStack(alignment: .leading, spacing: 6) {
@@ -115,7 +115,7 @@ struct OpenAILLMSettingsView: View {
     
     var settings = OpenAILLMSettings()
     settings.apiKey = "sk-..."
-    settings.model = "gpt-4o"
+    settings.model = "deepseek"
     settings.prompt = "你是一个有用的AI助手。"
     settings.temperature = 0.7
     settings.top_p = 1.0

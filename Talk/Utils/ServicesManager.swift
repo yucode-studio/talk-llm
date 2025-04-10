@@ -14,7 +14,7 @@ enum ServicesManager {
         switch selectedVADEngine {
         case .cobra:
             if cobraSettings.accessKey.isEmpty {
-                throw SettingsServiceError.invalidConfiguration("Cobra Access key is not configured")
+                throw SettingsServiceError.invalidConfiguration("You choose Cobra VAD, but you haven't configured the access key, please check your settings")
             }
             return try CobraVADEngine(accessKey: cobraSettings.accessKey)
         case .energy:
@@ -26,20 +26,25 @@ enum ServicesManager {
         switch selectedLLMService {
         case .openAI:
             if openAILLMSettings.apiKey.isEmpty {
-                throw SettingsServiceError.invalidConfiguration("OpenAI API key is not configured")
+                throw SettingsServiceError.invalidConfiguration("OpenAI compatible LLM API key is not configured, please check your settings")
             }
             if openAILLMSettings.model.isEmpty {
-                throw SettingsServiceError.invalidConfiguration("OpenAI model is not specified")
+                throw SettingsServiceError.invalidConfiguration("OpenAI compatible LLM model is not specified, please check your settings")
             }
-            let baseURL: URL? = openAILLMSettings.baseURL.isEmpty ? nil : URL(string: openAILLMSettings.baseURL)
+            if openAILLMSettings.baseURL.isEmpty {
+                throw SettingsServiceError.invalidConfiguration("OpenAI compatible LLM API base url is not specified, please check your settings")
+            }
+            guard let baseURL = URL(string: openAILLMSettings.baseURL) else {
+                throw SettingsServiceError.invalidConfiguration("OpenAI compatible LLM API base url is invalid, please check your settings")
+            }
             return LLMServiceFactory.createOpenAIService(apiKey: openAILLMSettings.apiKey, baseURL: baseURL)
             
         case .dify:
             if difySettings.apiKey.isEmpty {
-                throw SettingsServiceError.invalidConfiguration("Dify API key is not configured")
+                throw SettingsServiceError.invalidConfiguration("Dify API key is not configured, please check your settings")
             }
             if difySettings.baseURL.isEmpty {
-                throw SettingsServiceError.invalidConfiguration("Dify base URL is not configured")
+                throw SettingsServiceError.invalidConfiguration("Dify base URL is not configured, please check your settings")
             }
             let baseURL: URL? = difySettings.baseURL.isEmpty ? nil : URL(string: difySettings.baseURL)
             return LLMServiceFactory.createDifyService(apiKey: difySettings.apiKey, baseURL: baseURL)
@@ -54,7 +59,7 @@ enum ServicesManager {
         switch selectedSpeechService {
         case .whisperCpp:
             if whisperCppSettings.serverURL.isEmpty {
-                throw SettingsServiceError.invalidConfiguration("Whisper.cpp server URL is not configured")
+                throw SettingsServiceError.invalidConfiguration("You choose Whisper.cpp, but you haven't configured the server URL, please check your settings")
             }
             let serverURL = URL(string: whisperCppSettings.serverURL) ?? URL(string: "http://localhost:8080/inference")!
             return SpeechRecognitionServiceFactory.createWhisperCppService(serverURL: serverURL)
@@ -71,10 +76,10 @@ enum ServicesManager {
         switch selectedTTSService {
         case .microsoft:
             if microsoftTTSSettings.subscriptionKey.isEmpty {
-                throw SettingsServiceError.invalidConfiguration("Microsoft subscription key is not configured")
+                throw SettingsServiceError.invalidConfiguration("Text-to-Speech Microsoft subscription key is not configured, please check your settings")
             }
             if microsoftTTSSettings.region.isEmpty {
-                throw SettingsServiceError.invalidConfiguration("Microsoft region is not configured")
+                throw SettingsServiceError.invalidConfiguration("Text-to-Speech Microsoft region is not configured, please check your settings")
             }
             return TTSServiceFactory.createMicrosoftCognitiveServicesService(
                 subscriptionKey: microsoftTTSSettings.subscriptionKey,
@@ -83,7 +88,7 @@ enum ServicesManager {
             )
         case .openAI:
             if openAITTSSettings.apiKey.isEmpty {
-                throw SettingsServiceError.invalidConfiguration("OpenAI TTS API key is not configured")
+                throw SettingsServiceError.invalidConfiguration("OpenAI compatible Text-to-Speech API key is not configured, please check your settings")
             }
             return TTSServiceFactory.createOpenAIService(
                 apiKey: openAITTSSettings.apiKey,

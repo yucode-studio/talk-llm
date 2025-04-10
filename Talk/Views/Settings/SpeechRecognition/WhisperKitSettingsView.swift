@@ -8,8 +8,16 @@ struct WhisperKitSettingsView: View {
     @State private var downloadProgress: Progress = Progress()
     @State private var showingError = false
     @State private var errorMessage = ""
+    @State private var downloadModels = WhisperKitModelManager.getDownloadedModelsNames()
     
-    let availableModels = ["tiny", "tiny.en", "base", "base.en", "small", "small.en", "medium", "medium.en"]
+    let availableModels = [
+        ("tiny", "~73 MB"),
+        ("tiny.en", "~145 MB"),
+        ("base", "~139 MB"),
+        ("base.en", "~139 MB"),
+        ("small", "~463 MB"),
+        ("small.en", "~463 MB"),
+    ]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {           
@@ -19,10 +27,12 @@ struct WhisperKitSettingsView: View {
                     .foregroundColor(ColorTheme.secondaryTextColor())
                 
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                    ForEach(availableModels, id: \.self) { model in
+                    ForEach(availableModels, id: \.self.0) { (model, size) in
                         ModelSelectionCard(
                             modelName: model,
-                            isSelected: viewModel.whisperKitSettings.modelName == model,
+                            size: size,
+                            downloaded: downloadModels.contains(model),
+                            selected: viewModel.whisperKitSettings.modelName == model,
                             onTap: {
                                 var settings = viewModel.whisperKitSettings
                                 settings.modelName = model
@@ -32,6 +42,12 @@ struct WhisperKitSettingsView: View {
                     }
                 }
             }
+
+            Text("WhisperKit requires downloading a speech model on your device to enable transcription.")
+            .font(.system(size: 13, weight: .medium))
+            .foregroundColor(ColorTheme.secondaryTextColor())
+            
+            let downloaded = WhisperKitModelManager.getDownloadedModelsNames().contains(viewModel.whisperKitSettings.modelName)
             
             VStack(alignment: .leading, spacing: 6) {
                 Text("Model Download")
@@ -45,7 +61,7 @@ struct WhisperKitSettingsView: View {
                 }) {
                     HStack {
                         Image(systemName: "arrow.down.circle")
-                        Text("Download Model")
+                        Text(downloaded ? "Load Model" : "Download Model")
                             .fontWeight(.medium)
                         Spacer()
                         if isDownloading {
@@ -65,6 +81,14 @@ struct WhisperKitSettingsView: View {
                 .disabled(isDownloading)
             }
             .padding(.vertical, 3)
+            
+            if isDownloading {
+                Text(
+                    "The model is \(downloaded ? "loading" : "downloading"), please wait for the download to complete. This may take some time.")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundColor(ColorTheme.secondaryTextColor())
+                    .transition(.opacity)
+            }
         }
         .background(ColorTheme.backgroundColor())
         .alert("Download Error", isPresented: $showingError) {
@@ -72,45 +96,65 @@ struct WhisperKitSettingsView: View {
         } message: {
             Text(errorMessage)
         }
+        .onAppear{
+            print(downloadModels)
+        }
     }
     
     @MainActor
     private func downloadModel() async {
-        isDownloading = true
+        withAnimation{
+            isDownloading = true
+        }
+        
         downloadProgress = Progress()
         
         do {
             let modelName = viewModel.whisperKitSettings.modelName
             let url = try await WhisperKitModelManager.downloadModel(modelName){ downloadProgress = $0 }
             print("Model \(modelName) downloaded: \(url)")
-            isDownloading = false
         } catch {
-            isDownloading = false
             errorMessage = "Failed to download model: \(error.localizedDescription)"
             showingError = true
+        }
+        
+        withAnimation{
+            isDownloading = false
+            downloadModels = WhisperKitModelManager.getDownloadedModelsNames()
         }
     }
 }
 
 struct ModelSelectionCard: View {
     let modelName: String
-    let isSelected: Bool
+    let size: String
+    let downloaded: Bool
+    let selected: Bool
     let onTap: () -> Void
     
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 4) {
-                Text(modelName)
-                    .font(.system(size: 14, weight: isSelected ? .semibold : .regular))
-                    .foregroundColor(isSelected ? ColorTheme.backgroundColor() : ColorTheme.textColor())
+                HStack {
+                    Text(modelName)
+                        .font(.system(size: 14, weight: selected ? .semibold : .regular))
+                    if downloaded {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 10))
+                            .foregroundStyle(.green)
+                    }
+                }
+                Text(size)
+                    .font(.system(size: 10))
             }
+            .foregroundColor(selected ? ColorTheme.backgroundColor() : ColorTheme.textColor())
             .frame(maxWidth: .infinity)
             .padding(.vertical, 12)
-            .background(isSelected ? ColorTheme.textColor() : ColorTheme.backgroundColor())
+            .background(selected ? ColorTheme.textColor() : ColorTheme.backgroundColor())
             .cornerRadius(8)
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(isSelected ? ColorTheme.textColor() : ColorTheme.borderColor(), lineWidth: 1)
+                    .stroke(selected ? ColorTheme.textColor() : ColorTheme.borderColor(), lineWidth: 1)
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -142,13 +186,17 @@ struct ModelSelectionCard: View {
     HStack(spacing: 12) {
         ModelSelectionCard(
             modelName: "tiny",
-            isSelected: true,
+            size: "~100Mb",
+            downloaded: true,
+            selected: true,
             onTap: {}
         )
         
         ModelSelectionCard(
             modelName: "base",
-            isSelected: false,
+            size: "~100Mb",
+            downloaded: false,
+            selected: false,
             onTap: {}
         )
     }

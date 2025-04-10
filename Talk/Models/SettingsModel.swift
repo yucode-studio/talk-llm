@@ -24,7 +24,7 @@ final class SettingsModel {
     }
     
     enum LLMServiceType: String, Codable, CaseIterable, Identifiable {
-        case openAI = "OpenAI"
+        case openAI = "OpenAI compatible"
         case dify = "Dify"
         
         var id: String { self.rawValue }
@@ -39,7 +39,7 @@ final class SettingsModel {
     
     enum TTSServiceType: String, Codable, CaseIterable, Identifiable {
         case microsoft = "Microsoft"
-        case openAI = "OpenAI"
+        case openAI = "OpenAI compatible"
         
         var id: String { self.rawValue }
     }
@@ -92,7 +92,7 @@ struct CobraSettings: Codable, Hashable {
 struct OpenAILLMSettings: Codable, Hashable {
     var apiKey: String = ""
     var baseURL: String = ""
-    var model: String = "gpt-3.5-turbo"
+    var model: String = ""
     var prompt: String = ""
     var temperature: Float = 1.0
     var top_p: Float = 1.0
@@ -119,9 +119,9 @@ struct MicrosoftTTSSettings: Codable, Hashable {
 
 struct OpenAITTSSettings: Codable, Hashable {
     var apiKey: String = ""
-    var model: String = "tts-1"
-    var voice: String = "alloy"
+    var model: String = ""
+    var voice: String = ""
     var speed: Float = 1.0
     var instructions: String = ""
-    var baseURL: String = "https://api.openai.com"
+    var baseURL: String = ""
 }

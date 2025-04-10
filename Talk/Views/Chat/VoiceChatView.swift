@@ -26,16 +26,20 @@ struct VoiceChatView: View {
     @State private var ttsService: TTSService?
     
     @State private var servicesInitialed: Bool = false
+    @State private var prepareForSpeak: Bool = false
+    
+    @State private var responding: Bool = false
     
     private var currentSettings: SettingsModel? {
         settings.first
     }
     
     var body: some View {
-        VStack {
+        ZStack {
             ColorCircle(
                 listening: speechMonitor.listening,
                 speaking: speechMonitor.speaking,
+                responding: responding,
                 audioLevel: speechMonitor.voiceVolume
             ) {
                 // Validate service initialization when user taps
@@ -51,23 +55,34 @@ struct VoiceChatView: View {
                 }
                 servicesInitialed = false
             }
-        }
-        .alert("Configuration Error", isPresented: $showingErrorAlert) {
-            Button("OK", role: .cancel) { }
-        } message: {
-            Text(errorMessage)
+            .alert("Configuration Information", isPresented: $showingErrorAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(errorMessage)
+            }
+            
+            if prepareForSpeak {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .offset(y: 85)
+            }
         }
     }
     
     private func verifyAndInitializeServices() {
+        prepareForSpeak = true
+
         Task {
             if !servicesInitialed {
                 servicesInitialed = await initializeServices()
                 if !servicesInitialed {
+                    prepareForSpeak = false
                     return
                 }
             }
             speechMonitor.toggleMonitoring()
+
+            prepareForSpeak = false
         }
     }
     
@@ -75,7 +90,7 @@ struct VoiceChatView: View {
     private func initializeServices() async -> Bool {
         do {
             guard let currentSettings else {
-                throw SettingsServiceError.invalidConfiguration("No Settings")
+                throw SettingsServiceError.invalidConfiguration("Please open the settings page to configure your preferences for the first time.")
             }
             let vadEngine = try ServicesManager.createVADEngin(
                 selectedVADEngine: currentSettings.selectedVADService,
@@ -138,6 +153,8 @@ struct VoiceChatView: View {
         speechMonitor.stopMonitoring()
         Task {
             do {
+                responding = true
+                
                 let sttText = try await speechRecognitionService.recognizeSpeech(pcmData: data).text
                 
                 ChatHistory.addMessage(content: sttText, isUserMessage: true, in: modelContext)
@@ -187,8 +204,12 @@ struct VoiceChatView: View {
                 playback = try await ttsService.speak(llmResponse.content)
                 await playback?.waitForCompletion()
                 
+                responding = false
+                // Wait for the responding animation to end
+                try await Task.sleep(nanoseconds: 500_000_000)
                 speechMonitor.startMonitoring()
             } catch {
+                responding = false
                 showErrorAlert("Error during conversation: \(error.localizedDescription)")
             }
         }

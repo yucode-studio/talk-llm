@@ -35,7 +35,7 @@ public class OpenAIAdapter: LLMAdapter {
     private let logger = DebugLogger(tag: "OpenAIAdapter")
     
     public init(
-        baseURL: URL = URL(string: "https://api.openai.com/v1")!,
+        baseURL: URL,
         apiKey: String
     ) {
         self.baseURL = baseURL

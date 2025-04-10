@@ -154,7 +154,7 @@ public class OpenAITTSAdapter: TTSAdapter {
         responseFormat: ResponseFormat = .wav,
         speed: Float = 1.0,
         instructions: String? = nil,
-        baseURL: String = "https://api.openai.com"
+        baseURL: String
     ) {
         self.apiKey = apiKey
         self.model = model
@@ -166,7 +166,7 @@ public class OpenAITTSAdapter: TTSAdapter {
         if let url = URL(string: baseURL) {
             self.baseURL = url
         } else {
-            self.baseURL = URL(string: "https://api.openai.com")!
+            self.baseURL = URL(string: "https://example.com")!
         }
         
         do {
@@ -263,7 +263,7 @@ public class OpenAITTSAdapter: TTSAdapter {
     }
     
     private func createRequest(parameters: TTSParameters) -> URLRequest {
-        let url = baseURL.appendingPathComponent("v1/audio/speech")
+        let url = baseURL.appendingPathComponent("audio/speech")
         
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]

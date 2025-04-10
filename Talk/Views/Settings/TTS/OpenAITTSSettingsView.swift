@@ -16,7 +16,7 @@ struct OpenAITTSSettingsView: View {
                         viewModel.openAITTSSettings = settings
                     }
                 ),
-                placeholder: "Enter OpenAI API Key",
+                placeholder: "Enter API Key",
                 isSecure: true
             )
             
@@ -30,7 +30,7 @@ struct OpenAITTSSettingsView: View {
                         viewModel.openAITTSSettings = settings
                     }
                 ),
-                placeholder: "Enter model (e.g. tts-1, tts-1-hd, gpt-4o-mini-tts)"
+                placeholder: "Enter model (e.g. tts-1, tts-1-hd)"
             )
             
             SettingsTextField(
@@ -43,7 +43,7 @@ struct OpenAITTSSettingsView: View {
                         viewModel.openAITTSSettings = settings
                     }
                 ),
-                placeholder: "Enter voice (e.g. alloy, echo, fable, onyx, nova, shimmer)"
+                placeholder: "Enter voice (e.g. alloy, echo)"
             )
             
             SettingsSlider(
@@ -74,7 +74,7 @@ struct OpenAITTSSettingsView: View {
             )
             
             SettingsTextField(
-                title: "API Base URL (Optional)",
+                title: "API Base URL",
                 text: Binding(
                     get: { viewModel.openAITTSSettings.baseURL },
                     set: { 
@@ -83,7 +83,7 @@ struct OpenAITTSSettingsView: View {
                         viewModel.openAITTSSettings = settings
                     }
                 ),
-                placeholder: "Enter custom API URL (leave empty for default)"
+                placeholder: "Enter custom API URL (e.g. https://example.com/v1)"
             )
         }
     }

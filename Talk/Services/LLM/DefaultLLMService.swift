@@ -36,16 +36,10 @@ public enum LLMServiceFactory {
     
     public static func createOpenAIService(
         apiKey: String,
-        baseURL: URL? = nil
+        baseURL: URL
     ) -> LLMService {
-        let adapter: OpenAIAdapter
-        
-        if let baseURL = baseURL {
-            adapter = OpenAIAdapter(baseURL: baseURL, apiKey: apiKey)
-        } else {
-            adapter = OpenAIAdapter(apiKey: apiKey)
-        }
-        
+        let adapter =  OpenAIAdapter(baseURL: baseURL, apiKey: apiKey)
+
         return DefaultLLMService(adapter: adapter)
     }
     
