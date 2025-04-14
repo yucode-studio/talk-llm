@@ -5,23 +5,23 @@
 //  Created by Yu on 2025/4/6.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct ContentView: View {
     @State private var showingChatHistory = false
     @State private var showingSettings = false
     @Environment(\.modelContext) private var modelContext
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
                 ColorTheme.backgroundColor().ignoresSafeArea()
-                
-                VStack{
+
+                VStack {
                     HStack {
                         Spacer()
-                        
+
                         Button {
                             showingSettings.toggle()
                         } label: {
@@ -34,14 +34,14 @@ struct ContentView: View {
                                 )
                         }
                     }
-                    
+
                     Spacer()
                     VoiceChatView()
                     Spacer()
 
                     HStack {
                         Spacer()
-                        
+
                         Button {
                             showingChatHistory.toggle()
                         } label: {
@@ -74,7 +74,7 @@ struct ContentView: View {
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: ChatMessage.self, SettingsModel.self, configurations: config)
-        
+
         return ContentView()
             .modelContainer(container)
     } catch {

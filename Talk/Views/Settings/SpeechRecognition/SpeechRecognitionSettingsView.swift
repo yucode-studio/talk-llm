@@ -1,9 +1,9 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct SpeechRecognitionSettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -14,7 +14,7 @@ struct SpeechRecognitionSettingsView: View {
                         set: { viewModel.selectedSpeechService = $0 }
                     )
                 )
-                
+
                 if viewModel.selectedSpeechService == .whisperCpp {
                     WhisperCppSettingsView(viewModel: viewModel)
                 } else if viewModel.selectedSpeechService == .whisperKit {
@@ -26,20 +26,20 @@ struct SpeechRecognitionSettingsView: View {
         .navigationTitle("Speech Recognition Settings")
         .background(ColorTheme.backgroundColor())
     }
-} 
+}
 
 #Preview("SpeechRecognitionSettingsView") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: SettingsModel.self, configurations: config)
-    
+
     let context = container.mainContext
     let settings = SettingsModel()
     if try! context.fetch(FetchDescriptor<SettingsModel>()).isEmpty {
         context.insert(settings)
     }
-    
+
     let viewModel = SettingsViewModel(modelContext: context)
     return ScrollView {
         SpeechRecognitionSettingsView(viewModel: viewModel)
     }
-} 
+}

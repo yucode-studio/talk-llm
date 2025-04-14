@@ -5,12 +5,12 @@
 //  Created by Yu on 2025/4/9.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct VADSettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -21,9 +21,9 @@ struct VADSettingsView: View {
                         set: { viewModel.selectedVADService = $0 }
                     )
                 )
-                
+
                 if viewModel.selectedVADService == .cobra {
-                    VStack(alignment: .leading, spacing: 16) {                        
+                    VStack(alignment: .leading, spacing: 16) {
                         SettingsTextField(
                             title: "Access Key",
                             text: Binding(
@@ -50,12 +50,12 @@ struct VADSettingsView: View {
 #Preview("VADSettingsView") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: SettingsModel.self, configurations: config)
-    
+
     let context = container.mainContext
     if try! context.fetch(FetchDescriptor<SettingsModel>()).isEmpty {
         context.insert(SettingsModel())
     }
-    
+
     let viewModel = SettingsViewModel(modelContext: context)
     return NavigationStack {
         VADSettingsView(viewModel: viewModel)

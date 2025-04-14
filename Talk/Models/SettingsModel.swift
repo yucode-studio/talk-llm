@@ -7,7 +7,7 @@ final class SettingsModel {
     var selectedLLMService: LLMServiceType = LLMServiceType.openAI
     var selectedSpeechService: SpeechServiceType = SpeechServiceType.whisperKit
     var selectedTTSService: TTSServiceType = TTSServiceType.openAI
-    
+
     @Attribute var cobraSettings: CobraSettings = CobraSettings()
     @Attribute var openAILLMSettings: OpenAILLMSettings = OpenAILLMSettings()
     @Attribute var difySettings: DifySettings = DifySettings()
@@ -15,35 +15,35 @@ final class SettingsModel {
     @Attribute var whisperKitSettings: WhisperKitSettings = WhisperKitSettings()
     @Attribute var microsoftTTSSettings: MicrosoftTTSSettings = MicrosoftTTSSettings()
     @Attribute var openAITTSSettings: OpenAITTSSettings = OpenAITTSSettings()
-    
+
     enum VADServiceType: String, Codable, CaseIterable, Identifiable {
         case energy = "Energy"
         case cobra = "Cobra"
-        
-        var id: String { self.rawValue }
+
+        var id: String { rawValue }
     }
-    
+
     enum LLMServiceType: String, Codable, CaseIterable, Identifiable {
         case openAI = "OpenAI compatible"
         case dify = "Dify"
-        
-        var id: String { self.rawValue }
+
+        var id: String { rawValue }
     }
-    
+
     enum SpeechServiceType: String, Codable, CaseIterable, Identifiable {
         case whisperKit = "WhisperKit"
         case whisperCpp = "Whisper.cpp"
-        
-        var id: String { self.rawValue }
+
+        var id: String { rawValue }
     }
-    
+
     enum TTSServiceType: String, Codable, CaseIterable, Identifiable {
         case microsoft = "Microsoft"
         case openAI = "OpenAI compatible"
-        
-        var id: String { self.rawValue }
+
+        var id: String { rawValue }
     }
-    
+
     init() {}
 }
 
@@ -54,27 +54,27 @@ extension SettingsModel {
             selectedLLMService.rawValue,
             selectedSpeechService.rawValue,
             selectedTTSService.rawValue,
-            
+
             cobraSettings.accessKey,
-            
+
             openAILLMSettings.apiKey,
             openAILLMSettings.baseURL,
             openAILLMSettings.model,
             openAILLMSettings.prompt,
             String(openAILLMSettings.temperature),
             String(openAILLMSettings.top_p),
-            
+
             difySettings.apiKey,
             difySettings.baseURL,
-            
+
             whisperCppSettings.serverURL,
-            
+
             whisperKitSettings.modelName,
-            
+
             microsoftTTSSettings.subscriptionKey,
             microsoftTTSSettings.region,
             microsoftTTSSettings.voiceName,
-            
+
             openAITTSSettings.apiKey,
             openAITTSSettings.model,
             openAITTSSettings.voice,

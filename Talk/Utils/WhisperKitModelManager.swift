@@ -7,7 +7,7 @@
 import Foundation
 import WhisperKit
 
-struct WhisperKitModelManager {
+enum WhisperKitModelManager {
     static let downloadedModelsKey = "whisperKitDownloadedModels"
     static let modelURLKey = "whisperKitModelURL"
 
@@ -27,13 +27,13 @@ struct WhisperKitModelManager {
             variant: variant,
             progressCallback: progressCallback
         )
-        
+
         Self.addDownloadedModel(variant)
-        
+
         UserDefaults.standard.set(url.path(), forKey: modelURLKey)
         return url
     }
-    
+
     static func config(for variant: String) async throws -> WhisperKitConfig {
         guard let modelFolder = UserDefaults.standard.string(forKey: modelURLKey) else {
             throw SettingsServiceError.invalidConfiguration("WhisperKit requires downloading a speech model on first launch to enable transcription, please check your settings.")

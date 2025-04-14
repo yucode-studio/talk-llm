@@ -7,11 +7,11 @@ final class ChatMessage {
     var content: String
     var timestamp: Date
     var isUserMessage: Bool
-    
+
     init(content: String, isUserMessage: Bool) {
-        self.id = UUID()
+        id = UUID()
         self.content = content
-        self.timestamp = Date()
+        timestamp = Date()
         self.isUserMessage = isUserMessage
     }
-} 
+}

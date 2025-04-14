@@ -9,6 +9,7 @@ import Foundation
 enum SettingsServiceError: Error {
     case invalidConfiguration(String)
 }
+
 enum ServicesManager {
     static func createVADEngin(selectedVADEngine: SettingsModel.VADServiceType, cobraSettings: CobraSettings) throws -> VADEngine {
         switch selectedVADEngine {
@@ -21,7 +22,7 @@ enum ServicesManager {
             return EnergyVADEngine()
         }
     }
-    
+
     static func createLLMService(selectedLLMService: SettingsModel.LLMServiceType, openAILLMSettings: OpenAILLMSettings, difySettings: DifySettings) throws -> LLMService {
         switch selectedLLMService {
         case .openAI:
@@ -38,7 +39,7 @@ enum ServicesManager {
                 throw SettingsServiceError.invalidConfiguration("OpenAI compatible LLM API base url is invalid, please check your settings")
             }
             return LLMServiceFactory.createOpenAIService(apiKey: openAILLMSettings.apiKey, baseURL: baseURL)
-            
+
         case .dify:
             if difySettings.apiKey.isEmpty {
                 throw SettingsServiceError.invalidConfiguration("Dify API key is not configured, please check your settings")
@@ -50,7 +51,7 @@ enum ServicesManager {
             return LLMServiceFactory.createDifyService(apiKey: difySettings.apiKey, baseURL: baseURL)
         }
     }
-    
+
     static func createSpeechRecognitionService(
         selectedSpeechService: SettingsModel.SpeechServiceType,
         whisperCppSettings: WhisperCppSettings,
@@ -67,7 +68,7 @@ enum ServicesManager {
             return try await SpeechRecognitionServiceFactory.createWhisperKitService(modelName: whisperKitSettings.modelName)
         }
     }
-    
+
     static func createTTSService(
         selectedTTSService: SettingsModel.TTSServiceType,
         microsoftTTSSettings: MicrosoftTTSSettings,

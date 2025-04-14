@@ -1,27 +1,25 @@
 import Foundation
 
 public class DefaultTTSService: TTSService {
-    
     private let adapter: TTSAdapter
-    
+
     public init(adapter: TTSAdapter) {
         self.adapter = adapter
     }
-    
+
     @discardableResult
     public func speak(_ text: String) async throws -> TTSPlayback {
         guard !text.isEmpty else {
             throw TTSError.invalidInput
         }
-        
+
         let nomralizedText = TextNormalizer.normalize(text)
-        
+
         return try await adapter.speak(nomralizedText)
     }
 }
 
 public enum TTSServiceFactory {
-    
     public static func createMicrosoftCognitiveServicesService(
         subscriptionKey: String,
         region: String,
@@ -34,7 +32,7 @@ public enum TTSServiceFactory {
         )
         return DefaultTTSService(adapter: adapter)
     }
-    
+
     public static func createOpenAIService(
         apiKey: String,
         model: String = "tts-1",
@@ -55,4 +53,4 @@ public enum TTSServiceFactory {
         )
         return DefaultTTSService(adapter: adapter)
     }
-} 
+}

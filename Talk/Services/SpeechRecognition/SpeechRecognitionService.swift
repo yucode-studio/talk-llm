@@ -4,7 +4,7 @@ public struct SpeechRecognitionResult {
     public let text: String
     public let language: String
     public let additionalInfo: [String: Any]?
-    
+
     public init(text: String, language: String = "en", additionalInfo: [String: Any]? = nil) {
         self.text = text
         self.language = language
@@ -26,4 +26,4 @@ public protocol SpeechRecognitionService {
 
 public protocol SpeechRecognitionAdapter {
     func recognize(pcmData: [Int16]) async throws -> SpeechRecognitionResult
-} 
+}

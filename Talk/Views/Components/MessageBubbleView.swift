@@ -1,21 +1,21 @@
-import SwiftUI
 import MarkdownUI
+import SwiftUI
 
 struct MessageBubbleView: View {
     let message: ChatMessage
-    
+
     var body: some View {
         HStack {
             if message.isUserMessage {
                 Spacer()
             }
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 Markdown(message.content)
                     .foregroundColor(ColorTheme.textColor())
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
-                
+
                 Text(message.timestamp.formatted(.dateTime.hour().minute()))
                     .font(.caption2)
                     .foregroundColor(ColorTheme.secondaryTextColor())
@@ -29,7 +29,7 @@ struct MessageBubbleView: View {
                     .stroke(ColorTheme.borderColor(), lineWidth: 1)
             )
             .frame(maxWidth: UIScreen.main.bounds.width * 0.75, alignment: message.isUserMessage ? .trailing : .leading)
-            
+
             if !message.isUserMessage {
                 Spacer()
             }
@@ -37,7 +37,7 @@ struct MessageBubbleView: View {
         .padding(.horizontal)
         .padding(.vertical, 4)
     }
-} 
+}
 
 #Preview {
     VStack(spacing: 16) {
@@ -47,7 +47,7 @@ struct MessageBubbleView: View {
                 isUserMessage: true
             )
         )
-        
+
         MessageBubbleView(
             message: ChatMessage(
                 content: "这是一条回复消息示例，它可以包含**Markdown**格式。\n\n- 项目1\n- 项目2",
@@ -56,4 +56,4 @@ struct MessageBubbleView: View {
         )
     }
     .padding()
-} 
+}

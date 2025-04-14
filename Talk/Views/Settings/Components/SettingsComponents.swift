@@ -5,13 +5,13 @@ struct SettingsTextField: View {
     @Binding var text: String
     var placeholder: String
     var isSecure: Bool = false
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
                 .font(.system(size: 13, weight: .medium))
                 .foregroundColor(ColorTheme.secondaryTextColor())
-            
+
             if isSecure {
                 SecureField(placeholder, text: $text)
                     .font(.system(size: 14))
@@ -43,21 +43,21 @@ struct SettingsSlider: View {
     @Binding var value: Float
     var range: ClosedRange<Float>
     var step: Float = 0.1
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(title)
                     .font(.system(size: 13, weight: .medium))
                     .foregroundColor(ColorTheme.secondaryTextColor())
-                
+
                 Spacer()
-                
+
                 Text(String(format: "%.1f", value))
                     .font(.system(size: 13, weight: .bold))
                     .foregroundColor(ColorTheme.textColor())
             }
-            
+
             Slider(value: $value, in: range, step: step)
                 .frame(height: 20)
         }
@@ -69,13 +69,13 @@ struct SettingsSlider: View {
 struct SettingsPicker<T: RawRepresentable & CaseIterable & Identifiable & Hashable>: View where T.RawValue == String, T.AllCases: RandomAccessCollection {
     var title: String
     @Binding var selection: T
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
                 .font(.system(size: 13, weight: .medium))
                 .foregroundColor(ColorTheme.secondaryTextColor())
-            
+
             Picker("", selection: $selection) {
                 ForEach(T.allCases) { option in
                     Text(option.rawValue)
@@ -97,7 +97,7 @@ struct SettingsPicker<T: RawRepresentable & CaseIterable & Identifiable & Hashab
             text: .constant("sample-api-key-12345"),
             placeholder: "Enter your API key"
         )
-        
+
         SettingsTextField(
             title: "Password",
             text: .constant("password123"),
@@ -113,13 +113,13 @@ struct SettingsPicker<T: RawRepresentable & CaseIterable & Identifiable & Hashab
         SettingsSlider(
             title: "Temperature",
             value: .constant(0.7),
-            range: 0.0...1.0
+            range: 0.0 ... 1.0
         )
-        
+
         SettingsSlider(
             title: "Speaking Rate",
             value: .constant(1.5),
-            range: 0.5...2.0,
+            range: 0.5 ... 2.0,
             step: 0.1
         )
     }

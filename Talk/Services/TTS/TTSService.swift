@@ -3,9 +3,9 @@ import Foundation
 @MainActor
 public protocol TTSPlayback {
     func stop() throws
-    
+
     var isPlaying: Bool { get }
-    
+
     func waitForCompletion() async
 }
 
@@ -25,4 +25,4 @@ public protocol TTSService {
 public protocol TTSAdapter {
     @discardableResult
     func speak(_ text: String) async throws -> TTSPlayback
-} 
+}

@@ -1,11 +1,11 @@
-import Foundation
 import Combine
+import Foundation
 
 public struct LLMMessage {
     public let content: String
     public let role: String
     public let additionalInfo: [String: Any]?
-    
+
     public init(content: String, role: String = "assistant", additionalInfo: [String: Any]? = nil) {
         self.content = content
         self.role = role
@@ -18,7 +18,7 @@ public struct LLMRequest {
     public let model: String
     public let temperature: Float
     public let additionalParams: [String: Any]?
-    
+
     public init(
         messages: [LLMMessage],
         model: String = "gpt-4o",
@@ -42,15 +42,13 @@ public enum LLMError: Error {
 }
 
 public protocol LLMService {
-
     func sendMessage(_ request: LLMRequest) async throws -> LLMMessage
-    
+
     func streamMessage(_ request: LLMRequest) -> AsyncThrowingStream<String, Error>
 }
 
 public protocol LLMAdapter {
-
     func sendMessage(_ request: LLMRequest) async throws -> LLMMessage
-    
+
     func streamMessage(_ request: LLMRequest) -> AsyncThrowingStream<String, Error>
 }

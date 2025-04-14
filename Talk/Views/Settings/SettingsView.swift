@@ -1,14 +1,14 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct SettingsView: View {
     @StateObject private var viewModel: SettingsViewModel
-    
+
     init(modelContext: ModelContext) {
         let viewModel = SettingsViewModel(modelContext: modelContext)
-        self._viewModel = StateObject(wrappedValue: viewModel)
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     var body: some View {
         NavigationStack {
             List {
@@ -20,7 +20,7 @@ struct SettingsView: View {
                             iconName: "waveform.badge.microphone"
                         )
                     }
-                    
+
                     NavigationLink(destination: LLMSettingsView(viewModel: viewModel)) {
                         SettingRow(
                             title: "Large Language Model",
@@ -28,7 +28,7 @@ struct SettingsView: View {
                             iconName: "brain"
                         )
                     }
-                    
+
                     NavigationLink(destination: SpeechRecognitionSettingsView(viewModel: viewModel)) {
                         SettingRow(
                             title: "Speech Recognition",
@@ -36,7 +36,7 @@ struct SettingsView: View {
                             iconName: "waveform"
                         )
                     }
-                    
+
                     NavigationLink(destination: TTSSettingsView(viewModel: viewModel)) {
                         SettingRow(
                             title: "Text-to-Speech",
@@ -59,12 +59,11 @@ struct SettingsView: View {
 #Preview("SettingsView") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: SettingsModel.self, configurations: config)
-    
+
     let context = container.mainContext
     if try! context.fetch(FetchDescriptor<SettingsModel>()).isEmpty {
         context.insert(SettingsModel())
     }
-    
+
     return SettingsView(modelContext: context)
 }
-
