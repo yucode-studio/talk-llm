@@ -70,6 +70,10 @@ struct VoiceChatView: View {
     }
 
     private func verifyAndInitializeServices() {
+        if responding {
+            return
+        }
+
         prepareForSpeak = true
 
         Task {

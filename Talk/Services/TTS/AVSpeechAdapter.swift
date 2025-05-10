@@ -27,7 +27,6 @@ final class AVSpeechPlayback: NSObject, TTSPlayback, AVSpeechSynthesizerDelegate
     }
 
     func waitForCompletion() async {
-        guard synthesizer.isSpeaking else { return }
         await withCheckedContinuation { continuation in
             self.finishedContinuation = continuation
         }
