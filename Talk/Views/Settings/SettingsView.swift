@@ -47,6 +47,16 @@ struct SettingsView: View {
                 } header: {
                     Text("Service Settings")
                 }
+
+                Section {
+                    NavigationLink(destination: AboutView()) {
+                        SettingRow(
+                            title: "About",
+                            subtitle: "Information, Privacy & Support",
+                            iconName: "info.circle"
+                        )
+                    }
+                }
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
