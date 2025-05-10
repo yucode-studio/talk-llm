@@ -5,8 +5,8 @@ import SwiftData
 final class SettingsModel {
     var selectedVADService: VADServiceType = VADServiceType.energy
     var selectedLLMService: LLMServiceType = LLMServiceType.openAI
-    var selectedSpeechService: SpeechServiceType = SpeechServiceType.whisperKit
-    var selectedTTSService: TTSServiceType = TTSServiceType.openAI
+    var selectedSpeechService: SpeechServiceType = SpeechServiceType.system
+    var selectedTTSService: TTSServiceType = TTSServiceType.system
 
     @Attribute var cobraSettings: CobraSettings = CobraSettings()
     @Attribute var openAILLMSettings: OpenAILLMSettings = OpenAILLMSettings()
@@ -15,6 +15,8 @@ final class SettingsModel {
     @Attribute var whisperKitSettings: WhisperKitSettings = WhisperKitSettings()
     @Attribute var microsoftTTSSettings: MicrosoftTTSSettings = MicrosoftTTSSettings()
     @Attribute var openAITTSSettings: OpenAITTSSettings = OpenAITTSSettings()
+    @Attribute var appleSpeechSettings: AppleSpeechSettings = AppleSpeechSettings()
+    @Attribute var systemTTSSettings: SystemTTSSettings = SystemTTSSettings()
 
     enum VADServiceType: String, Codable, CaseIterable, Identifiable {
         case energy = "Energy"
@@ -33,6 +35,7 @@ final class SettingsModel {
     enum SpeechServiceType: String, Codable, CaseIterable, Identifiable {
         case whisperKit = "WhisperKit"
         case whisperCpp = "Whisper.cpp"
+        case system = "System"
 
         var id: String { rawValue }
     }
@@ -40,6 +43,7 @@ final class SettingsModel {
     enum TTSServiceType: String, Codable, CaseIterable, Identifiable {
         case microsoft = "Microsoft"
         case openAI = "OpenAI compatible"
+        case system = "System"
 
         var id: String { rawValue }
     }
@@ -81,6 +85,14 @@ extension SettingsModel {
             String(openAITTSSettings.speed),
             openAITTSSettings.instructions,
             openAITTSSettings.baseURL,
+
+            appleSpeechSettings.language,
+
+            systemTTSSettings.voiceIdentifier,
+            systemTTSSettings.language,
+            String(systemTTSSettings.rate),
+            String(systemTTSSettings.pitch),
+            String(systemTTSSettings.volume),
         ].joined(separator: "-")
     }
 }
@@ -124,4 +136,16 @@ struct OpenAITTSSettings: Codable, Hashable {
     var speed: Float = 1.0
     var instructions: String = ""
     var baseURL: String = ""
+}
+
+struct AppleSpeechSettings: Codable, Hashable {
+    var language: String = "en-US"
+}
+
+struct SystemTTSSettings: Codable, Hashable {
+    var voiceIdentifier: String = ""
+    var language: String = "en-US"
+    var rate: Float = 0.5
+    var pitch: Float = 1.0
+    var volume: Float = 1.0
 }

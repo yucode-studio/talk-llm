@@ -19,6 +19,8 @@ struct TTSSettingsView: View {
                     MicrosoftTTSSettingsView(viewModel: viewModel)
                 } else if viewModel.selectedTTSService == .openAI {
                     OpenAITTSSettingsView(viewModel: viewModel)
+                } else if viewModel.selectedTTSService == .system {
+                    SystemTTSSettingsView(viewModel: viewModel)
                 }
             }
             .padding(20)

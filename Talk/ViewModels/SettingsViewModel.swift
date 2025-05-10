@@ -57,6 +57,12 @@ class SettingsViewModel: ObservableObject {
         }
     }
 
+    @Published var appleSpeechSettings: AppleSpeechSettings {
+        didSet {
+            saveSettings()
+        }
+    }
+
     @Published var selectedTTSService: SettingsModel.TTSServiceType {
         didSet {
             saveSettings()
@@ -70,6 +76,12 @@ class SettingsViewModel: ObservableObject {
     }
 
     @Published var openAITTSSettings: OpenAITTSSettings {
+        didSet {
+            saveSettings()
+        }
+    }
+
+    @Published var systemTTSSettings: SystemTTSSettings {
         didSet {
             saveSettings()
         }
@@ -106,9 +118,11 @@ class SettingsViewModel: ObservableObject {
         selectedSpeechService = settings.selectedSpeechService
         whisperCppSettings = settings.whisperCppSettings
         whisperKitSettings = settings.whisperKitSettings
+        appleSpeechSettings = settings.appleSpeechSettings
         selectedTTSService = settings.selectedTTSService
         microsoftTTSSettings = settings.microsoftTTSSettings
         openAITTSSettings = settings.openAITTSSettings
+        systemTTSSettings = settings.systemTTSSettings
     }
 
     // MARK: - Methods
@@ -122,9 +136,11 @@ class SettingsViewModel: ObservableObject {
         settings.selectedSpeechService = selectedSpeechService
         settings.whisperCppSettings = whisperCppSettings
         settings.whisperKitSettings = whisperKitSettings
+        settings.appleSpeechSettings = appleSpeechSettings
         settings.selectedTTSService = selectedTTSService
         settings.microsoftTTSSettings = microsoftTTSSettings
         settings.openAITTSSettings = openAITTSSettings
+        settings.systemTTSSettings = systemTTSSettings
 
         do {
             try modelContext.save()

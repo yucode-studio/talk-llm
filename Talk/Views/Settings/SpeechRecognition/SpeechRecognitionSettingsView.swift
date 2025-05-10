@@ -19,6 +19,8 @@ struct SpeechRecognitionSettingsView: View {
                     WhisperCppSettingsView(viewModel: viewModel)
                 } else if viewModel.selectedSpeechService == .whisperKit {
                     WhisperKitSettingsView(viewModel: viewModel)
+                } else if viewModel.selectedSpeechService == .system {
+                    AppleSpeechSettingsView(viewModel: viewModel)
                 }
             }
             .padding(20)

@@ -29,4 +29,9 @@ public enum SpeechRecognitionServiceFactory {
 
         return DefaultSpeechRecognitionService(adapter: adapter)
     }
+
+    public static func createAppleSpeechService(language: String = "en-US") -> SpeechRecognitionService {
+        let adapter = AppleSpeechAdapter(language: language)
+        return DefaultSpeechRecognitionService(adapter: adapter)
+    }
 }

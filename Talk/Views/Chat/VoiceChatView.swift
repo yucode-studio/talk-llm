@@ -102,7 +102,8 @@ struct VoiceChatView: View {
             speechRecognitionService = try await ServicesManager.createSpeechRecognitionService(
                 selectedSpeechService: currentSettings.selectedSpeechService,
                 whisperCppSettings: currentSettings.whisperCppSettings,
-                whisperKitSettings: currentSettings.whisperKitSettings
+                whisperKitSettings: currentSettings.whisperKitSettings,
+                appleSpeechSettings: currentSettings.appleSpeechSettings
             )
 
             llmService = try ServicesManager.createLLMService(
@@ -114,7 +115,8 @@ struct VoiceChatView: View {
             ttsService = try ServicesManager.createTTSService(
                 selectedTTSService: currentSettings.selectedTTSService,
                 microsoftTTSSettings: currentSettings.microsoftTTSSettings,
-                openAITTSSettings: currentSettings.openAITTSSettings
+                openAITTSSettings: currentSettings.openAITTSSettings,
+                systemTTSSettings: currentSettings.systemTTSSettings
             )
 
             return true
@@ -210,6 +212,7 @@ struct VoiceChatView: View {
                 try await Task.sleep(nanoseconds: 500_000_000)
                 speechMonitor.startMonitoring()
             } catch {
+                print(error)
                 responding = false
                 showErrorAlert("Error during conversation: \(error.localizedDescription)")
             }

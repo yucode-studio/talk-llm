@@ -10,21 +10,36 @@ import SwiftUI
 
 @main
 struct TalkApp: App {
-    let modelContainer: ModelContainer
+    let modelContainer: ModelContainer?
+
+    var modelContainerError: Bool = false
 
     init() {
         do {
-            // 同时支持ChatMessage和SettingsModel
-            modelContainer = try ModelContainer(for: ChatMessage.self, SettingsModel.self)
+            let schema = Schema(versionedSchema: AppSchemaV1.self)
+
+            modelContainer = try ModelContainer(
+                for: schema,
+            )
         } catch {
-            fatalError("Failed to create model container: \(error.localizedDescription)")
+            modelContainerError = true
+            modelContainer = nil
+            print("Failed to create model container: \(error.localizedDescription)")
         }
     }
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .modelContainer(modelContainer)
+            if let modelContainer = modelContainer, !modelContainerError {
+                ContentView()
+                    .modelContainer(modelContainer)
+            } else {
+                VStack {
+                    Text("Database is broken.")
+                    Text("Sorry for the inconvenience 😭")
+                    Text("Please reinstall the app.")
+                }
+            }
         }
     }
 }

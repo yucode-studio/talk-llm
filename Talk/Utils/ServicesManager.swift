@@ -55,7 +55,8 @@ enum ServicesManager {
     static func createSpeechRecognitionService(
         selectedSpeechService: SettingsModel.SpeechServiceType,
         whisperCppSettings: WhisperCppSettings,
-        whisperKitSettings: WhisperKitSettings
+        whisperKitSettings: WhisperKitSettings,
+        appleSpeechSettings: AppleSpeechSettings
     ) async throws -> SpeechRecognitionService {
         switch selectedSpeechService {
         case .whisperCpp:
@@ -66,13 +67,16 @@ enum ServicesManager {
             return SpeechRecognitionServiceFactory.createWhisperCppService(serverURL: serverURL)
         case .whisperKit:
             return try await SpeechRecognitionServiceFactory.createWhisperKitService(modelName: whisperKitSettings.modelName)
+        case .system:
+            return SpeechRecognitionServiceFactory.createAppleSpeechService(language: appleSpeechSettings.language)
         }
     }
 
     static func createTTSService(
         selectedTTSService: SettingsModel.TTSServiceType,
         microsoftTTSSettings: MicrosoftTTSSettings,
-        openAITTSSettings: OpenAITTSSettings
+        openAITTSSettings: OpenAITTSSettings,
+        systemTTSSettings: SystemTTSSettings
     ) throws -> TTSService {
         switch selectedTTSService {
         case .microsoft:
@@ -98,6 +102,14 @@ enum ServicesManager {
                 speed: openAITTSSettings.speed,
                 instructions: openAITTSSettings.instructions.isEmpty ? nil : openAITTSSettings.instructions,
                 baseURL: openAITTSSettings.baseURL
+            )
+        case .system:
+            return TTSServiceFactory.createAVSpeechService(
+                language: systemTTSSettings.language,
+                voiceIdentifier: systemTTSSettings.voiceIdentifier,
+                rate: systemTTSSettings.rate,
+                pitch: systemTTSSettings.pitch,
+                volume: systemTTSSettings.volume
             )
         }
     }

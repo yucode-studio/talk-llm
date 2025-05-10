@@ -37,9 +37,22 @@
 		2A7768FA2DA390BA00F4C860 /* MicrosoftCognitiveServicesSpeech.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MicrosoftCognitiveServicesSpeech.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2AAC14AA2DCF2B7A0057E48A /* Exceptions for "Talk" folder in "Talk" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 2A7768AE2DA28A5B00F4C860 /* Talk */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		2A7768B12DA28A5B00F4C860 /* Talk */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				2AAC14AA2DCF2B7A0057E48A /* Exceptions for "Talk" folder in "Talk" target */,
+			);
 			path = Talk;
 			sourceTree = "<group>";
 		};
@@ -317,9 +330,11 @@
 				DEVELOPMENT_TEAM = SRD476XUQA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Talk/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Talk LLM";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We use the microphone so you can talk to the AI assistant. Your voice is processed locally in real time and is not saved or shared.\n";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "We use speech recognition to convert your voice into text for hands-free interaction with our app. Your voice data is processed securely and not stored or shared with third parties.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -352,9 +367,11 @@
 				DEVELOPMENT_TEAM = SRD476XUQA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Talk/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Talk LLM";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We use the microphone so you can talk to the AI assistant. Your voice is processed locally in real time and is not saved or shared.\n";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "We use speech recognition to convert your voice into text for hands-free interaction with our app. Your voice data is processed securely and not stored or shared with third parties.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

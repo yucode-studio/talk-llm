@@ -1,16 +1,16 @@
-import Foundation
 import AVFoundation
+import Foundation
 
 public class DefaultTTSService: TTSService {
     private let adapter: TTSAdapter
 
     public init(adapter: TTSAdapter) {
         self.adapter = adapter
-        
+
         do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, 
-                                                          mode: .default,
-                                                          options: [.duckOthers, .mixWithOthers])
+            try AVAudioSession.sharedInstance().setCategory(.playback,
+                                                            mode: .default,
+                                                            options: [.duckOthers, .mixWithOthers])
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
             print("AVAudioSession configuration error: \(error.localizedDescription)")
@@ -60,6 +60,23 @@ public enum TTSServiceFactory {
             speed: speed,
             instructions: instructions,
             baseURL: baseURL
+        )
+        return DefaultTTSService(adapter: adapter)
+    }
+
+    public static func createAVSpeechService(
+        language: String = "en-US",
+        voiceIdentifier: String = "",
+        rate: Float = 0.5,
+        pitch: Float = 1.0,
+        volume: Float = 1.0
+    ) -> TTSService {
+        let adapter = AVSpeechAdapter(
+            language: language,
+            voiceIdentifier: voiceIdentifier,
+            rate: rate,
+            pitch: pitch,
+            volume: volume
         )
         return DefaultTTSService(adapter: adapter)
     }
