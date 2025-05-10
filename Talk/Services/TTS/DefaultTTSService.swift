@@ -1,10 +1,20 @@
 import Foundation
+import AVFoundation
 
 public class DefaultTTSService: TTSService {
     private let adapter: TTSAdapter
 
     public init(adapter: TTSAdapter) {
         self.adapter = adapter
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, 
+                                                          mode: .default,
+                                                          options: [.duckOthers, .mixWithOthers])
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("AVAudioSession configuration error: \(error.localizedDescription)")
+        }
     }
 
     @discardableResult

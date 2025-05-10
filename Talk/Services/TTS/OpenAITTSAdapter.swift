@@ -168,13 +168,6 @@ public class OpenAITTSAdapter: TTSAdapter {
         } else {
             self.baseURL = URL(string: "https://example.com")!
         }
-
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback)
-            try AVAudioSession.sharedInstance().setActive(true)
-        } catch {
-            print("AVAudioSession error: \(error)")
-        }
     }
 
     @MainActor
