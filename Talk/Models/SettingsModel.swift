@@ -3,7 +3,7 @@ import SwiftData
 
 @Model
 final class SettingsModel {
-    var selectedVADService: VADServiceType = VADServiceType.energy
+    var selectedRecordingMode: RecordingMode = RecordingMode.auto
     var selectedLLMService: LLMServiceType = LLMServiceType.openAI
     var selectedSpeechService: SpeechServiceType = SpeechServiceType.system
     var selectedTTSService: TTSServiceType = TTSServiceType.system
@@ -18,9 +18,9 @@ final class SettingsModel {
     @Attribute var appleSpeechSettings: AppleSpeechSettings = AppleSpeechSettings()
     @Attribute var systemTTSSettings: SystemTTSSettings = SystemTTSSettings()
 
-    enum VADServiceType: String, Codable, CaseIterable, Identifiable {
-        case energy = "Energy"
-        case cobra = "Cobra"
+    enum RecordingMode: String, Codable, CaseIterable, Identifiable {
+        case manual = "Manual"
+        case auto = "Auto Detect"
 
         var id: String { rawValue }
     }
@@ -54,7 +54,7 @@ final class SettingsModel {
 extension SettingsModel {
     var settingsHash: String {
         [
-            selectedVADService.rawValue,
+            selectedRecordingMode.rawValue,
             selectedLLMService.rawValue,
             selectedSpeechService.rawValue,
             selectedTTSService.rawValue,

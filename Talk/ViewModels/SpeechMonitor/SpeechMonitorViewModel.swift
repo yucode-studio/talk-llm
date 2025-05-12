@@ -10,6 +10,8 @@ import Combine
 import Foundation
 import ios_voice_processor
 
+// TODO: Refactor this file to simplify the VAD code and make it more readable
+
 /// Core view model for automatic voice detection and recognition
 /// Uses a VAD engine to detect voice activity
 /// Starts recording when speech is detected, returns audio data after silence
@@ -18,10 +20,13 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
     private let logger = DebugLogger(tag: "SpeechMonitor")
 
     /// VAD (Voice Activity Detection) engine
-    private var vadEngine: VADEngine?
+    private var vadEngine: VADEngine = EnergyVADEngine()
 
     /// Whether currently recording
     private var recording = false
+
+    /// Whether to use manual recording mode (without VAD)
+    private var manualRecording = false
 
     /// Ring buffer to store recent audio frames for "pre-recording"
     private var ringBuffer: [Int16] = []
@@ -144,8 +149,7 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
     // MARK: - Initialization
 
     /// Initialize the voice monitoring view model
-    /// - Parameter vadEngine: VAD engine instance, defaults to nil (uses CobraVAD if not provided)
-    init(vadEngine _: VADEngine? = nil) {
+    override init() {
         super.init()
 
         // Add audio processing and error callbacks
@@ -186,8 +190,7 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
     deinit {
         logger.info("Releasing resources")
         stopMonitoring()
-        vadEngine?.delete()
-        vadEngine = nil
+        vadEngine.delete()
 
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
@@ -195,11 +198,16 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
 
     // MARK: - Public Methods
 
+    /// Set manual recording mode
+    /// - Parameter isManual: Whether to use manual recording mode
+    func setManualRecording(_ isManual: Bool) {
+        logger.info("Setting manual recording mode: \(isManual)")
+        manualRecording = isManual
+    }
+
     /// Set the VAD engine
     /// - Parameter engine: VAD engine instance to use
-    /// - Returns: Whether the engine was set successfully
-    @discardableResult
-    func setVADEngine(_ engine: VADEngine) -> Bool {
+    func setVADEngine(_: VADEngine) {
         logger.info("Setting new VAD engine...")
 
         let wasListening = listening
@@ -207,31 +215,42 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
             stopMonitoring()
         }
 
-        vadEngine?.delete()
-        vadEngine = engine
+        vadEngine.delete()
         logger.success("VAD engine updated")
 
         if wasListening {
             startMonitoring()
         }
-
-        return true
     }
 
     /// Start audio monitoring
     /// Begins capturing and analyzing microphone input
+    /// Delegates to appropriate method based on manual recording setting
     func startMonitoring() {
-        logger.info("Starting monitoring...")
+        if manualRecording {
+            startMonitoringWithoutVAD()
+        } else {
+            startMonitoringWithVAD()
+        }
+    }
+
+    /// Stop audio monitoring
+    /// Stops microphone input and resets state
+    /// Delegates to appropriate method based on manual recording setting
+    func stopMonitoring() {
+        if manualRecording {
+            stopMonitoringWithoutVAD()
+        } else {
+            stopMonitoringWithVAD()
+        }
+    }
+
+    /// Start audio monitoring with VAD
+    /// Begins capturing and analyzing microphone input using voice activity detection
+    func startMonitoringWithVAD() {
+        logger.info("Starting monitoring with VAD...")
         guard !listening else {
             logger.warning("Already listening, skipping request")
-            return
-        }
-        guard vadEngine != nil else {
-            let error = NSError(domain: "SpeechMonitor", code: 1, userInfo: [NSLocalizedDescriptionKey: "VAD engine not initialized"])
-            Task { @MainActor in
-                self.error = error
-                logger.error("Failed to start monitoring: VAD engine not initialized")
-            }
             return
         }
 
@@ -248,21 +267,21 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
 
                 self?.logger.success("Microphone permission granted")
                 Task { @MainActor in
-                    self?.startMonitoring()
+                    self?.startMonitoringWithVAD()
                 }
             }
             return
         }
 
         do {
-            let frameLength = type(of: vadEngine!).frameLength
-            let sampleRate = type(of: vadEngine!).sampleRate
+            let frameLength = type(of: vadEngine).frameLength
+            let sampleRate = type(of: vadEngine).sampleRate
 
             try VoiceProcessor.instance.start(
                 frameLength: frameLength,
                 sampleRate: UInt32(sampleRate)
             )
-            logger.success("Monitoring started. frameLength=\(frameLength), sampleRate=\(sampleRate)")
+            logger.success("Monitoring with VAD started. frameLength=\(frameLength), sampleRate=\(sampleRate)")
             Task { @MainActor in
                 self.listening = true
                 self.error = nil
@@ -275,10 +294,10 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
         }
     }
 
-    /// Stop audio monitoring
+    /// Stop audio monitoring with VAD
     /// Stops microphone input and resets state
-    func stopMonitoring() {
-        logger.info("Stopping monitoring...")
+    func stopMonitoringWithVAD() {
+        logger.info("Stopping monitoring with VAD...")
         guard listening else {
             logger.warning("Not currently listening, skipping request")
             return
@@ -307,13 +326,133 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
         vadTimeoutTimer = nil
     }
 
+    /// Start audio monitoring without VAD
+    /// Immediately begins recording without waiting for voice activity
+    func startMonitoringWithoutVAD() {
+        logger.info("Starting monitoring without VAD (manual recording)...")
+        guard !listening else {
+            logger.warning("Already listening, skipping request")
+            return
+        }
+
+        guard VoiceProcessor.hasRecordAudioPermission else {
+            logger.info("Requesting microphone permission...")
+            VoiceProcessor.requestRecordAudioPermission { [weak self] isGranted in
+                guard isGranted else {
+                    Task { @MainActor [weak self] in
+                        self?.error = NSError(domain: "SpeechMonitor", code: 2, userInfo: [NSLocalizedDescriptionKey: "Microphone permission denied"])
+                        self?.logger.error("Microphone permission denied")
+                    }
+                    return
+                }
+
+                self?.logger.success("Microphone permission granted")
+                Task { @MainActor in
+                    self?.startMonitoringWithoutVAD()
+                }
+            }
+            return
+        }
+
+        do {
+            // Use same audio configuration as VAD for consistency
+            let frameLength = type(of: vadEngine).frameLength
+            let sampleRate = type(of: vadEngine).sampleRate
+
+            try VoiceProcessor.instance.start(
+                frameLength: frameLength,
+                sampleRate: UInt32(sampleRate)
+            )
+
+            // Initialize recording immediately
+            currentRecording = []
+            recording = true
+
+            logger.success("Manual recording started. frameLength=\(frameLength), sampleRate=\(sampleRate)")
+            Task { @MainActor in
+                self.listening = true
+                self.speaking = true // Set speaking to true for manual recording
+                self.error = nil
+            }
+        } catch {
+            Task { @MainActor in
+                self.error = error
+                logger.error("VoiceProcessor start error: \(error)")
+            }
+        }
+    }
+
+    /// Stop audio monitoring without VAD
+    /// Immediately stops recording and processes the audio
+    func stopMonitoringWithoutVAD() {
+        logger.info("Stopping manual recording...")
+        guard listening else {
+            logger.warning("Not currently listening, skipping request")
+            return
+        }
+
+        do {
+            try VoiceProcessor.instance.stop()
+
+            // Process the recording if we have data
+            if recording && !currentRecording.isEmpty {
+                // Normalize recording levels for consistent volume
+                let normalizedRecording = normalizeAudioLevels(currentRecording)
+
+                let isSpeaking = try vadEngine.process(frame: normalizedRecording)
+
+                if isSpeaking {
+                    Task { @MainActor in
+                        self.recordedAudioData = normalizedRecording
+
+                        if let audioData = self.recordedAudioData {
+                            let durationInSeconds = Float(audioData.count) / Float(self.sampleRate)
+                            logger.success("Manual recording complete, samples: \(audioData.count), duration: \(String(format: "%.2f", durationInSeconds)) seconds")
+                        } else {
+                            logger.error("No audio data recorded")
+                        }
+                    }
+                } else {
+                    logger.warning("No speech detected in manual recording")
+                }
+            } else {
+                logger.warning("No recording data available")
+            }
+
+            logger.success("Manual recording stopped")
+
+            Task { @MainActor in
+                self.listening = false
+                self.speaking = false
+                self.voiceVolume = 0.0
+                self.lastPublishedVolume = 0.0
+                self.recording = false
+                self.currentRecording.removeAll()
+                self.resetStateCounters()
+            }
+        } catch {
+            Task { @MainActor in
+                self.error = error
+                logger.error("VoiceProcessor stop error: \(error)")
+            }
+        }
+    }
+
     /// Toggle monitoring on or off
     func toggleMonitoring() {
         logger.info("Toggling monitoring state, current: \(listening ? "On" : "Off")")
         if listening {
-            stopMonitoring()
+            if manualRecording {
+                stopMonitoringWithoutVAD()
+            } else {
+                stopMonitoringWithVAD()
+            }
         } else {
-            startMonitoring()
+            if manualRecording {
+                startMonitoringWithoutVAD()
+            } else {
+                startMonitoringWithVAD()
+            }
         }
     }
 
@@ -327,8 +466,19 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
         // Add frame to ring buffer with proper management
         updateRingBuffer(with: frame)
 
-        guard let vadEngine = vadEngine else { return }
+        // For manual recording, just add the frame to recording
+        if manualRecording && recording {
+            addFrameToRecording(frame)
 
+            // Update volume level
+            Task { @MainActor [weak self] in
+                self?.updateVoiceVolume(frame: frame)
+            }
+
+            return
+        }
+
+        // Normal VAD processing
         do {
             let rawIsSpeaking = try vadEngine.process(frame: frame)
 
@@ -764,11 +914,6 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
             return
         }
 
-        // Apply a gentle fade-out to the end of the recording
-        if currentRecording.count > 320 {
-            applyFadeOut(to: &currentRecording, fadeSamples: 320)
-        }
-
         // Trim trailing silence
         let trimmedRecording = trimTrailingSilence(currentRecording)
 
@@ -816,24 +961,6 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
         }
 
         return samples
-    }
-
-    /// Apply a gentle fade-out to the end of the audio
-    /// - Parameters:
-    ///   - samples: Audio samples to modify
-    ///   - fadeSamples: Number of samples over which to apply the fade
-    private func applyFadeOut(to samples: inout [Int16], fadeSamples: Int) {
-        let fadeLength = min(fadeSamples, samples.count)
-        let startIdx = samples.count - fadeLength
-
-        for i in 0 ..< fadeLength {
-            // Calculate fade factor (1.0 -> 0.0)
-            let fadeFactor = Float(fadeLength - i) / Float(fadeLength)
-
-            // Apply fade
-            let sample = Float(samples[startIdx + i])
-            samples[startIdx + i] = Int16(sample * fadeFactor)
-        }
     }
 
     /// Reset all state counters and buffers

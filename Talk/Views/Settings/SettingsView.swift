@@ -13,10 +13,10 @@ struct SettingsView: View {
         NavigationStack {
             List {
                 Section {
-                    NavigationLink(destination: VADSettingsView(viewModel: viewModel)) {
+                    NavigationLink(destination: RecordingSettingsView(viewModel: viewModel)) {
                         SettingRow(
-                            title: "VAD Engine",
-                            subtitle: viewModel.selectedVADService.rawValue,
+                            title: "Recording Mode",
+                            subtitle: viewModel.selectedRecordingMode.rawValue,
                             iconName: "waveform.badge.microphone"
                         )
                     }

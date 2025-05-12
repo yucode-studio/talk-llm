@@ -9,7 +9,7 @@ class SettingsViewModel: ObservableObject {
 
     // MARK: - Properties
 
-    @Published var selectedVADService: SettingsModel.VADServiceType {
+    @Published var selectedRecordingMode: SettingsModel.RecordingMode {
         didSet {
             saveSettings()
         }
@@ -110,7 +110,7 @@ class SettingsViewModel: ObservableObject {
             try? modelContext.save()
         }
 
-        selectedVADService = settings.selectedVADService
+        selectedRecordingMode = settings.selectedRecordingMode
         cobraSettings = settings.cobraSettings
         selectedLLMService = settings.selectedLLMService
         openAILLMSettings = settings.openAILLMSettings
@@ -128,7 +128,7 @@ class SettingsViewModel: ObservableObject {
     // MARK: - Methods
 
     private func saveSettings() {
-        settings.selectedVADService = selectedVADService
+        settings.selectedRecordingMode = selectedRecordingMode
         settings.cobraSettings = cobraSettings
         settings.selectedLLMService = selectedLLMService
         settings.openAILLMSettings = openAILLMSettings

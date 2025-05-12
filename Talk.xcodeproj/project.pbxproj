@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2A3262C72DA61F54005EB4E9 /* MicrosoftCognitiveServicesSpeech.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A7768FA2DA390BA00F4C860 /* MicrosoftCognitiveServicesSpeech.xcframework */; };
 		2A3262C82DA61F54005EB4E9 /* MicrosoftCognitiveServicesSpeech.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2A7768FA2DA390BA00F4C860 /* MicrosoftCognitiveServicesSpeech.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2A7768BF2DA28ACA00F4C860 /* Cobra in Frameworks */ = {isa = PBXBuildFile; productRef = 2A7768BE2DA28ACA00F4C860 /* Cobra */; };
 		2A7768CA2DA296B400F4C860 /* ios_voice_processor in Frameworks */ = {isa = PBXBuildFile; productRef = 2A7768C92DA296B400F4C860 /* ios_voice_processor */; };
 		2A7768CD2DA29D4400F4C860 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2A7768CC2DA29D4400F4C860 /* Alamofire */; };
 		2A7768F92DA372A300F4C860 /* EventSource in Frameworks */ = {isa = PBXBuildFile; productRef = 2A7768F82DA372A300F4C860 /* EventSource */; };
@@ -69,7 +68,6 @@
 				2A7769742DA4FB5D00F4C860 /* WhisperKit in Frameworks */,
 				2A7768F92DA372A300F4C860 /* EventSource in Frameworks */,
 				2A3262C72DA61F54005EB4E9 /* MicrosoftCognitiveServicesSpeech.xcframework in Frameworks */,
-				2A7768BF2DA28ACA00F4C860 /* Cobra in Frameworks */,
 				2A7769242DA3E5AC00F4C860 /* ChunkedAudioPlayer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -123,7 +121,6 @@
 			);
 			name = Talk;
 			packageProductDependencies = (
-				2A7768BE2DA28ACA00F4C860 /* Cobra */,
 				2A7768C92DA296B400F4C860 /* ios_voice_processor */,
 				2A7768CC2DA29D4400F4C860 /* Alamofire */,
 				2A7768F82DA372A300F4C860 /* EventSource */,
@@ -160,7 +157,6 @@
 			mainGroup = 2A7768A62DA28A5B00F4C860;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				2A7768BD2DA28ACA00F4C860 /* XCRemoteSwiftPackageReference "cobra" */,
 				2A7768C82DA296B400F4C860 /* XCRemoteSwiftPackageReference "ios-voice-processor" */,
 				2A7768CB2DA29D4400F4C860 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				2A7768F72DA372A300F4C860 /* XCRemoteSwiftPackageReference "EventSource" */,
@@ -418,14 +414,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2A7768BD2DA28ACA00F4C860 /* XCRemoteSwiftPackageReference "cobra" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Picovoice/cobra.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.2;
-			};
-		};
 		2A7768C82DA296B400F4C860 /* XCRemoteSwiftPackageReference "ios-voice-processor" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Picovoice/ios-voice-processor.git";
@@ -477,11 +465,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2A7768BE2DA28ACA00F4C860 /* Cobra */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2A7768BD2DA28ACA00F4C860 /* XCRemoteSwiftPackageReference "cobra" */;
-			productName = Cobra;
-		};
 		2A7768C92DA296B400F4C860 /* ios_voice_processor */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2A7768C82DA296B400F4C860 /* XCRemoteSwiftPackageReference "ios-voice-processor" */;

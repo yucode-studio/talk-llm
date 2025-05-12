@@ -11,16 +11,8 @@ enum SettingsServiceError: Error {
 }
 
 enum ServicesManager {
-    static func createVADEngin(selectedVADEngine: SettingsModel.VADServiceType, cobraSettings: CobraSettings) throws -> VADEngine {
-        switch selectedVADEngine {
-        case .cobra:
-            if cobraSettings.accessKey.isEmpty {
-                throw SettingsServiceError.invalidConfiguration("You choose Cobra VAD, but you haven't configured the access key, please check your settings")
-            }
-            return try CobraVADEngine(accessKey: cobraSettings.accessKey)
-        case .energy:
-            return EnergyVADEngine()
-        }
+    static func createVADEngin(selectedVADEngine _: SettingsModel.RecordingMode, cobraSettings _: CobraSettings) throws -> VADEngine {
+        return EnergyVADEngine()
     }
 
     static func createLLMService(selectedLLMService: SettingsModel.LLMServiceType, openAILLMSettings: OpenAILLMSettings, difySettings: DifySettings) throws -> LLMService {

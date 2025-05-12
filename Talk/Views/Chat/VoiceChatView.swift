@@ -53,6 +53,7 @@ struct VoiceChatView: View {
                 if speechMonitor.listening {
                     speechMonitor.stopMonitoring()
                 }
+
                 servicesInitialed = false
             }
             .alert("Configuration Information", isPresented: $showingErrorAlert) {
@@ -96,12 +97,9 @@ struct VoiceChatView: View {
             guard let currentSettings else {
                 throw SettingsServiceError.invalidConfiguration("Please open the settings page to configure your preferences for the first time.")
             }
-            let vadEngine = try ServicesManager.createVADEngin(
-                selectedVADEngine: currentSettings.selectedVADService,
-                cobraSettings: currentSettings.cobraSettings
-            )
 
-            speechMonitor.setVADEngine(vadEngine)
+            let manualRecording = currentSettings.selectedRecordingMode == .manual
+            speechMonitor.setManualRecording(manualRecording)
 
             speechRecognitionService = try await ServicesManager.createSpeechRecognitionService(
                 selectedSpeechService: currentSettings.selectedSpeechService,
@@ -157,7 +155,10 @@ struct VoiceChatView: View {
             return
         }
 
-        speechMonitor.stopMonitoring()
+        if currentSettings.selectedRecordingMode == .auto {
+            speechMonitor.stopMonitoring()
+        }
+
         Task {
             do {
                 responding = true
@@ -212,9 +213,10 @@ struct VoiceChatView: View {
                 await playback?.waitForCompletion()
 
                 responding = false
-                // Wait for the responding animation to end
-                try await Task.sleep(nanoseconds: 500_000_000)
-                speechMonitor.startMonitoring()
+
+                if currentSettings.selectedRecordingMode == .auto {
+                    speechMonitor.startMonitoring()
+                }
             } catch {
                 print(error)
                 responding = false
