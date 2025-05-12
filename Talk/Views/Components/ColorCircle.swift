@@ -11,6 +11,8 @@ struct ColorCircle: View {
     var listening: Bool = false // Whether recording is active
     var speaking: Bool = false // Whether real speech is detected
     var responding: Bool = false // Whether the circle is responding to the audio level
+    let prepareForSpeak: Bool = false
+
     var audioLevel: Float = 0.0
     let action: () -> Void
 
@@ -52,29 +54,37 @@ struct ColorCircle: View {
     }
 
     var body: some View {
-        Button(action: action) {
-            TimelineView(.animation) { timeline in
-                let time = timeline.date.timeIntervalSinceReferenceDate
-                let offset = bounceOffset(at: time)
+        ZStack {
+            Button(action: action) {
+                TimelineView(.animation) { timeline in
+                    let time = timeline.date.timeIntervalSinceReferenceDate
+                    let offset = bounceOffset(at: time)
 
-                Circle()
-                    .fill(ColorTheme.textColor())
-                    .frame(width: baseRadius * 2, height: baseRadius * 2)
-                    .scaleEffect(currentScale)
-                    .offset(y: responding ? offset : 0)
-                    .animation(.spring(response: 0.2), value: currentScale)
-                    .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 4)
-            }
-        }
-        .buttonStyle(PlainButtonStyle())
-        .onChange(of: audioLevel) { _, newLevel in
-            if speaking && newLevel > 0 {
-                if newLevel > maxLevelSeen {
-                    // If new level is higher, update max immediately
-                    maxLevelSeen = newLevel
-                } else if maxLevelSeen > 0.05 {
-                    maxLevelSeen *= 0.995
+                    Circle()
+                        .fill(ColorTheme.textColor())
+                        .frame(width: baseRadius * 2, height: baseRadius * 2)
+                        .scaleEffect(currentScale)
+                        .offset(y: responding ? offset : 0)
+                        .animation(.spring(response: 0.2), value: currentScale)
+                        .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 4)
                 }
+            }
+            .buttonStyle(PlainButtonStyle())
+            .onChange(of: audioLevel) { _, newLevel in
+                if speaking && newLevel > 0 {
+                    if newLevel > maxLevelSeen {
+                        // If new level is higher, update max immediately
+                        maxLevelSeen = newLevel
+                    } else if maxLevelSeen > 0.05 {
+                        maxLevelSeen *= 0.995
+                    }
+                }
+            }
+
+            if prepareForSpeak {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .offset(y: 85)
             }
         }
     }

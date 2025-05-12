@@ -16,8 +16,7 @@ struct VoiceChatView: View {
     @Environment(\.modelContext) private var modelContext
     @StateObject private var speechMonitor = SpeechMonitorViewModel()
     @Query private var settings: [SettingsModel]
-    @State private var cancellables = Set<AnyCancellable>()
-    @State private var playback: TTSPlayback?
+
     @State private var showingErrorAlert = false
     @State private var errorMessage = ""
 
@@ -30,42 +29,68 @@ struct VoiceChatView: View {
 
     @State private var responding: Bool = false
 
+    @State private var showingChatHistory = false
+
     private var currentSettings: SettingsModel? {
         settings.first
     }
 
     var body: some View {
+        let colorCircle = ColorCircle(
+            listening: speechMonitor.listening,
+            speaking: speechMonitor.speaking,
+            responding: responding,
+            audioLevel: speechMonitor.voiceVolume
+        ) {
+            // Validate service initialization when user taps
+            verifyAndInitializeServices()
+        }
+
         ZStack {
-            ColorCircle(
-                listening: speechMonitor.listening,
-                speaking: speechMonitor.speaking,
-                responding: responding,
-                audioLevel: speechMonitor.voiceVolume
-            ) {
-                // Validate service initialization when user taps
-                verifyAndInitializeServices()
-            }
-            .onChange(of: speechMonitor.recordedAudioData) { _, newValue in
-                onSpeakEnd(data: newValue)
-            }
-            .onChange(of: currentSettings?.settingsHash) { _, _ in
-                debugPrint("Settings changed")
-                if speechMonitor.listening {
-                    speechMonitor.stopMonitoring()
+            colorCircle
+                .scaleEffect(showingChatHistory ? 0 : 1)
+                .animation(.spring, value: showingChatHistory)
+                .onChange(of: speechMonitor.recordedAudioData) { _, newValue in
+                    onSpeakEnd(data: newValue)
+                }
+                .onChange(of: currentSettings?.settingsHash) { _, _ in
+                    debugPrint("Settings changed")
+                    if speechMonitor.listening {
+                        speechMonitor.stopMonitoring()
+                    }
+
+                    servicesInitialed = false
+                }
+                .alert("Configuration Information", isPresented: $showingErrorAlert) {
+                    Button("OK", role: .cancel) {}
+                } message: {
+                    Text(errorMessage)
                 }
 
-                servicesInitialed = false
-            }
-            .alert("Configuration Information", isPresented: $showingErrorAlert) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text(errorMessage)
-            }
+            VStack {
+                Spacer()
 
-            if prepareForSpeak {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .offset(y: 85)
+                HStack {
+                    Spacer()
+
+                    Button {
+                        showingChatHistory.toggle()
+                    } label: {
+                        Image(systemName: "archivebox.fill")
+                            .foregroundColor(ColorTheme.backgroundColor())
+                            .padding(8)
+                            .background(
+                                Circle()
+                                    .fill(ColorTheme.textColor())
+                            )
+                    }
+                }
+            }
+            .sheet(isPresented: $showingChatHistory) {
+                ChatHistoryView {
+                    colorCircle
+                        .scaleEffect(0.7)
+                }
             }
         }
     }
@@ -209,8 +234,8 @@ struct VoiceChatView: View {
 
                 ChatHistory.addMessage(content: llmResponse.content, isUserMessage: false, in: modelContext)
 
-                playback = try await ttsService.speak(llmResponse.content)
-                await playback?.waitForCompletion()
+                let playback = try await ttsService.speak(llmResponse.content)
+                await playback.waitForCompletion()
 
                 responding = false
 

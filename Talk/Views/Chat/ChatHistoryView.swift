@@ -8,14 +8,23 @@
 import SwiftData
 import SwiftUI
 
-struct ChatHistoryView: View {
+struct ChatHistoryView<Content: View>: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \ChatMessage.timestamp, order: .reverse) private var messages: [ChatMessage]
+
     @State private var showingDeleteAlert = false
+
+    @State private var appeared = false
+
+    private let bottomContent: Content
+
+    init(@ViewBuilder bottomContent: () -> Content) {
+        self.bottomContent = bottomContent()
+    }
 
     var body: some View {
         NavigationStack {
-            VStack {
+            ZStack {
                 if messages.isEmpty {
                     Spacer()
 
@@ -49,6 +58,18 @@ struct ChatHistoryView: View {
                         }
                         .padding(.vertical)
                     }
+                }
+
+                VStack {
+                    Spacer()
+
+                    bottomContent
+                        .scaleEffect(appeared ? 1 : 0)
+                        .onAppear {
+                            withAnimation(.spring) {
+                                appeared = true
+                            }
+                        }
                 }
             }
             .navigationTitle("Chat History")
@@ -115,10 +136,10 @@ struct ChatHistoryView: View {
 
         let messages = [
             ChatMessage(content: "Hello, how can I help you?", isUserMessage: false),
-            ChatMessage(content: "I’d like to know today’s weather.", isUserMessage: true),
-            ChatMessage(content: "Today is sunny with temperatures between 22–28°C. It’s great weather for outdoor activities.", isUserMessage: false),
+            ChatMessage(content: "I'd like to know today's weather.", isUserMessage: true),
+            ChatMessage(content: "Today is sunny with temperatures between 22–28°C. It's great weather for outdoor activities.", isUserMessage: false),
             ChatMessage(content: "Thanks! Any recommended activities for today?", isUserMessage: true),
-            ChatMessage(content: "Given the weather, a picnic, hiking, or visiting an outdoor attraction would be great. I recommend checking out the local city park—there’s a small music concert there today.", isUserMessage: false),
+            ChatMessage(content: "Given the weather, a picnic, hiking, or visiting an outdoor attraction would be great. I recommend checking out the local city park—there's a small music concert there today.", isUserMessage: false),
         ]
 
         for message in messages {
@@ -131,8 +152,10 @@ struct ChatHistoryView: View {
             print("Error saving sample messages: \(error)")
         }
 
-        return ChatHistoryView()
-            .modelContainer(container)
+        return ChatHistoryView {
+            ColorCircle(listening: false, speaking: false, responding: false, audioLevel: 0.0) {}
+        }
+        .modelContainer(container)
     } catch {
         return Text("Failed to create preview: \(error.localizedDescription)")
     }
@@ -151,8 +174,10 @@ struct ChatHistoryView: View {
             print("Error saving sample messages: \(error)")
         }
 
-        return ChatHistoryView()
-            .modelContainer(container)
+        return ChatHistoryView {
+            Text("Content")
+        }
+        .modelContainer(container)
     } catch {
         return Text("Failed to create preview: \(error.localizedDescription)")
     }

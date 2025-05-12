@@ -9,7 +9,6 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showingChatHistory = false
     @State private var showingSettings = false
     @Environment(\.modelContext) private var modelContext
 
@@ -38,27 +37,8 @@ struct ContentView: View {
                     Spacer()
                     VoiceChatView()
                     Spacer()
-
-                    HStack {
-                        Spacer()
-
-                        Button {
-                            showingChatHistory.toggle()
-                        } label: {
-                            Image(systemName: "archivebox.fill")
-                                .foregroundColor(ColorTheme.backgroundColor())
-                                .padding(8)
-                                .background(
-                                    Circle()
-                                        .fill(ColorTheme.textColor())
-                                )
-                        }
-                    }
                 }
                 .padding()
-            }
-            .sheet(isPresented: $showingChatHistory) {
-                ChatHistoryView()
             }
             .sheet(isPresented: $showingSettings) {
                 SettingsView(modelContext: modelContext)

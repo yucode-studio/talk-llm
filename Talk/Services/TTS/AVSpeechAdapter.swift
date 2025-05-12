@@ -53,7 +53,6 @@ final class AVSpeechAdapter: TTSService, TTSAdapter {
     private let rate: Float
     private let pitch: Float
     private let volume: Float
-    private let synthesizer = AVSpeechSynthesizer()
 
     init(language: String, voiceIdentifier: String = "", rate: Float = 0.5, pitch: Float = 1.0, volume: Float = 1.0) {
         self.language = language
@@ -68,6 +67,8 @@ final class AVSpeechAdapter: TTSService, TTSAdapter {
         guard !text.trimmingCharacters(in: .whitespaces).isEmpty else {
             throw TTSError.invalidInput
         }
+
+        let synthesizer = AVSpeechSynthesizer()
 
         let utterance = AVSpeechUtterance(string: text)
 

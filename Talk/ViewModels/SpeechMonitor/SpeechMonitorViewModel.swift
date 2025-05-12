@@ -227,6 +227,8 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
     /// Begins capturing and analyzing microphone input
     /// Delegates to appropriate method based on manual recording setting
     func startMonitoring() {
+        vadEngine.delete()
+
         if manualRecording {
             startMonitoringWithoutVAD()
         } else {
@@ -399,7 +401,18 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
                 // Normalize recording levels for consistent volume
                 let normalizedRecording = normalizeAudioLevels(currentRecording)
 
-                let isSpeaking = try vadEngine.process(frame: normalizedRecording)
+                let frameSize = Int(type(of: vadEngine).frameLength)
+                var isSpeaking = false
+
+                for i in stride(from: 0, to: normalizedRecording.count, by: frameSize) {
+                    let end = min(i + frameSize, normalizedRecording.count)
+                    let frameData = Array(normalizedRecording[i ..< end])
+
+                    if try vadEngine.process(frame: frameData) {
+                        isSpeaking = true
+                        break
+                    }
+                }
 
                 if isSpeaking {
                     Task { @MainActor in
@@ -442,17 +455,9 @@ class SpeechMonitorViewModel: NSObject, ObservableObject {
     func toggleMonitoring() {
         logger.info("Toggling monitoring state, current: \(listening ? "On" : "Off")")
         if listening {
-            if manualRecording {
-                stopMonitoringWithoutVAD()
-            } else {
-                stopMonitoringWithVAD()
-            }
+            stopMonitoring()
         } else {
-            if manualRecording {
-                startMonitoringWithoutVAD()
-            } else {
-                startMonitoringWithVAD()
-            }
+            startMonitoring()
         }
     }
 
