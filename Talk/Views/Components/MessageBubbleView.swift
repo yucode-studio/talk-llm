@@ -12,6 +12,7 @@ struct MessageBubbleView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Markdown(message.content)
+                    .textSelection(.enabled)
                     .foregroundColor(ColorTheme.textColor())
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
