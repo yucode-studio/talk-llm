@@ -6,6 +6,13 @@ public class DefaultTTSService: TTSService {
 
     public init(adapter: TTSAdapter) {
         self.adapter = adapter
+    }
+
+    @discardableResult
+    public func speak(_ text: String) async throws -> TTSPlayback {
+        guard !text.isEmpty else {
+            throw TTSError.invalidInput
+        }
 
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback,
@@ -14,13 +21,6 @@ public class DefaultTTSService: TTSService {
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
             print("AVAudioSession configuration error: \(error.localizedDescription)")
-        }
-    }
-
-    @discardableResult
-    public func speak(_ text: String) async throws -> TTSPlayback {
-        guard !text.isEmpty else {
-            throw TTSError.invalidInput
         }
 
         let nomralizedText = TextNormalizer.normalize(text)
